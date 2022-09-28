@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import GoalList from './components/GoalList/GoalList';
 import NewGoal from './components/NewGoal/NewGoal';
@@ -6,7 +6,7 @@ import NewGoal from './components/NewGoal/NewGoal';
 import './App.css';
 
 const App = () => {
-  const courseGoals = [
+  const [courseGoals, setCourseGoals] = useState([
     {
       id: 'cg1',
       text: 'Finish',
@@ -19,11 +19,15 @@ const App = () => {
       id: 'cg3',
       text: 'Help others',
     },
-  ];
+  ]);
 
-  const addNewGoalHandler = NewGoal => {
-    courseGoals.push(NewGoal);
-    console.log(courseGoals);
+  const addNewGoalHandler = newGoal => {
+    /**
+     * setCourseGoals is executed in async mode, thats why this approach
+     * is needed to update the data and make sure that the application
+     * is rendered with the latest data state.
+     */
+    setCourseGoals(prevCourseGoals => [...prevCourseGoals, newGoal]);
   };
 
   return (
