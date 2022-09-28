@@ -2,7 +2,8 @@ import React from 'react';
 
 import './NewGoal.css';
 
-const NewGoal = () => {
+const NewGoal = props => {
+  const { onAddNewGoal } = props;
   const addGoalHandler = event => {
     event.preventDefault();
 
@@ -11,7 +12,7 @@ const NewGoal = () => {
       text: 'New goal',
     };
 
-    console.log(newGoal);
+    onAddNewGoal(newGoal);
   };
 
   return (
