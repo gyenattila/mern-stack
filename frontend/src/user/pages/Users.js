@@ -6,8 +6,9 @@ const Users = () => {
   const USERS = [
     {
       id: Math.random.toString(),
-      image: 'Jack',
-      name: 'https://pcdn.hu/articles/images-xl/o/l/a/olaszorszag-firenze-360624.jpg',
+      image:
+        'https://pcdn.hu/articles/images-xl/o/l/a/olaszorszag-firenze-360624.jpg',
+      name: 'Jack',
       places: 3,
     },
   ];
