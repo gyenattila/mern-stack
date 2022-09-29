@@ -23,3 +23,9 @@ Request-response communication typically with JSON Format.
 ```shell
 $ npx create-react-app <app-name>
 ```
+
+## Install React Routing
+
+```shell
+npm install react-router-dom
+```
