@@ -29,3 +29,13 @@ $ npx create-react-app <app-name>
 ```shell
 npm install react-router-dom
 ```
+
+## Presentation Vs. Stateful Components
+
+### Presentational Components
+
+Only outputs the data, render HTML.
+
+### Stateful Components
+
+Communicates w/ backend, fetching data (not directly), managing state.
