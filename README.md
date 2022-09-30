@@ -2,7 +2,7 @@
 
 **M** - MongoDB -> A NoSQL Database which stores "Documents" in "Collections". Enforces no Data Schema or Relations. Easily connected to Node / Express (NOT to React!).
 
-**E** - Express -> NodeJS Framework which simplifies writing Server-side Code and Logic. Middleware-based, includes Routing, View-rendering & More.
+**E** - Express -> NodeJS Framework which simplifies writing Server-side Code and Logic. Middleware-based, includes Routing, View-rendering & More. Middleware-focused approach.
 
 **R** - ReactJS -> A Client-Side (Browser) Library which allows to build highly reactive user interfaces.
 
