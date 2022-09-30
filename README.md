@@ -39,3 +39,7 @@ Only outputs the data, render HTML.
 ### Stateful Components
 
 Communicates w/ backend, fetching data (not directly), managing state.
+
+## Portals in React
+
+They're a concept that allows us to project or render a React component in a different place that it normally would be rendered.
