@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import MainHeader from './MainHeader';
+import NavLinks from './NavLinks';
 
 import './MainNavigation.css';
 
@@ -13,10 +14,14 @@ const MainNavigation = props => {
         <span />
         <span />
       </button>
-      <Link to='/'>
-        <h1 className='main-navigation__title'> Your places</h1>
-      </Link>
-      <nav>...</nav>
+
+      <h1 className='main-navigation__title'>
+        <Link to='/'> Your places </Link>
+      </h1>
+
+      <nav>
+        <NavLinks />
+      </nav>
     </MainHeader>
   );
 };
