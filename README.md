@@ -6,7 +6,7 @@
 
 **R** - ReactJS -> A Client-Side (Browser) Library which allows to build highly reactive user interfaces.
 
-**N** - NodeJS -> A Server-side Runtime: JavaScript on the server-side. JS outside of the browser.
+**N** - NodeJS -> A Server-side Runtime: JavaScript on the server-side. JS outside of the browser. A host Environment for JS.
 
 ## Client (React)
 
