@@ -1,8 +1,4 @@
-const express = require('express');
-
-const router = express.Router();
-
-const HttpError = require('../models/http-error');
+const HttpError = require('../models/http.error');
 
 const DUMMY_PLACES = [
   {
@@ -20,7 +16,7 @@ const DUMMY_PLACES = [
   },
 ];
 
-router.get('/:placeId', (req, res, next) => {
+exports.getPlaceById = (req, res, next) => {
   const placeId = req.params.placeId;
   const place = DUMMY_PLACES.find(place => place.id === placeId);
 
@@ -31,9 +27,9 @@ router.get('/:placeId', (req, res, next) => {
   }
 
   res.json({ place });
-});
+};
 
-router.get('/user/:userId', (req, res, next) => {
+exports.getPlaceByUserId = (req, res, next) => {
   const userId = req.params.userId;
   const place = DUMMY_PLACES.find(place => place.creatorId === userId);
 
@@ -44,6 +40,4 @@ router.get('/user/:userId', (req, res, next) => {
   }
 
   res.json({ place });
-});
-
-module.exports = router;
+};
