@@ -1,3 +1,6 @@
+/** Setup environment variables before start-up the application. */
+require('./utils/env-parser.util').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
