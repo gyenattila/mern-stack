@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 /**
  * This is just a local mongodb connection string running in docker
  * In real application this string should be stored in env variable.
- * */
+ */
 const url = 'mongodb://admin:admin@localhost:27222/?authMechanism=DEFAULT';
 
 exports.createProduct = async (req, res, next) => {
