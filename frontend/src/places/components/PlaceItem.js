@@ -25,19 +25,13 @@ const PlaceItem = props => {
         footer={<Button onClick={closeMapHandler}>Close</Button>}
       >
         <div className='map-container'>
-          <Map
-            center={props.coordinates}
-            zoom={16}
-          />
+          <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
       <li className='place-item'>
         <Card className='place-item__content'>
           <div className='place-item__image'>
-            <img
-              src={props.image}
-              alt={props.title}
-            />
+            <img src={props.image} alt={props.title} />
           </div>
           <div className='place-item__info'>
             <h2>{props.title}</h2>
@@ -45,13 +39,10 @@ const PlaceItem = props => {
             <p>{props.description}</p>
           </div>
           <div className='place-item__actions'>
-            <Button
-              inverse
-              onClick={openMapHandler}
-            >
+            <Button inverse onClick={openMapHandler}>
               View on Map
             </Button>
-            <Button to={`/places:${props.id}`}>Edit</Button>
+            <Button to={`/places/${props.id}`}>Edit</Button>
             <Button danger>Delete</Button>
           </div>
         </Card>

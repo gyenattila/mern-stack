@@ -7,7 +7,7 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/utils/validators';
 
-import './NewPlace.css';
+import './PlaceForm.css';
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -63,10 +63,7 @@ const NewPlace = () => {
   };
 
   return (
-    <form
-      className='place-form'
-      onSubmit={placeSubmitHandler}
-    >
+    <form className='place-form' onSubmit={placeSubmitHandler}>
       <Input
         id='title'
         element='input'
@@ -93,10 +90,7 @@ const NewPlace = () => {
         errorText='Please enter a valid address'
         onInput={inputHandler}
       />
-      <Button
-        type='submit'
-        disabled={!formSate.isValid}
-      >
+      <Button type='submit' disabled={!formSate.isValid}>
         ADD PLACE
       </Button>
     </form>
