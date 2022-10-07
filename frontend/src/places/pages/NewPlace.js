@@ -7,7 +7,7 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/utils/validators';
 
-import { useForm } from '../../shared/hooks/form-hook';
+import { useForm } from '../../shared/hooks/form.hook';
 
 import './PlaceForm.css';
 
