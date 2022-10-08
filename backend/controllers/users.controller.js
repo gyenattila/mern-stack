@@ -26,15 +26,14 @@ exports.signup = async (req, res, next) => {
 
   const { name, email, password, places } = req.body;
 
-  let existingUser;
   try {
-    existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return next(new HttpError('Email already in use', 422));
+    }
   } catch (error) {
     return next(new HttpError(`Signing up failed with error: ${error}`, 500));
-  }
-
-  if (existingUser) {
-    return next(new HttpError('Email already in use', 422));
   }
 
   const createdUser = User({
@@ -55,15 +54,17 @@ exports.signup = async (req, res, next) => {
   res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const identifiedUser = DUMMY_USERS.find(
-    user => user.email === email && user.password === password
-  );
+  try {
+    const existingUser = await User.findOne({ email });
 
-  if (!identifiedUser) {
-    return next(new HttpError('Wrong credentials', 401));
+    if (!existingUser || existingUser.password !== password) {
+      return next('Wrong credentials', 401);
+    }
+  } catch (error) {
+    return next(new HttpError(`Logging in failed with error: ${error}`, 500));
   }
 
   res.json({ message: 'Logged in' });
