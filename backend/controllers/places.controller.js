@@ -1,25 +1,8 @@
-const { v4: ObjectId } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http.error');
 const { getCoordsForAddress } = require('../utils/location');
 const Place = require('../models/place.model');
-
-let DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'Empire state',
-    description: 'One of the most famous sky scraper',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/800px-Empire_State_Building_%28aerial_view%29.jpg',
-    address: '20 W 34th St., New York, NY 10001',
-    creatorId: 'u1',
-    location: {
-      lat: 40.7484,
-      lng: -73.9878,
-    },
-  },
-];
 
 exports.getPlaceById = async (req, res, next) => {
   const placeId = req.params.placeId;

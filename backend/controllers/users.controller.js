@@ -2,6 +2,7 @@ const { v4: ObjectId } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http.error');
+const User = require('../models/user.model');
 
 const DUMMY_USERS = [
   {
@@ -16,31 +17,42 @@ exports.getUsers = (req, res, next) => {
   res.json({ users: DUMMY_USERS });
 };
 
-exports.signup = (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return next(new HttpError('Invalid inputs passed', 422));
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password, places } = req.body;
 
-  const hasUser = DUMMY_USERS.find(user => user.email === email);
-
-  if (hasUser) {
-    return next(new HttpError('Email already exists', 422));
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email });
+  } catch (error) {
+    return next(new HttpError(`Signing up failed with error: ${error}`, 500));
   }
 
-  const createdUser = {
-    id: ObjectId(),
+  if (existingUser) {
+    return next(new HttpError('Email already in use', 422));
+  }
+
+  const createdUser = User({
     name,
     email,
     password,
-  };
+    imageUrl:
+      'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
+    places,
+  });
 
-  DUMMY_USERS.push(createdUser);
+  try {
+    await createdUser.save();
+  } catch (error) {
+    return next(new HttpError(`User save failed with error: ${error}`, 500));
+  }
 
-  res.status(201).json({ user: createdUser });
+  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
 exports.login = (req, res, next) => {
