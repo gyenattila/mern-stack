@@ -34,13 +34,8 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || 'An unknown error occurred!' });
 });
 
-/**
- * This is just a local mongodb connection string running in Docker.
- * In real application this string must be stored in env variable.
- */
-const url = 'mongodb://admin:admin@localhost:27222/?authMechanism=DEFAULT';
 mongoose
-  .connect(url)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     app.listen(3000, () => console.log('Application is running'));
   })
