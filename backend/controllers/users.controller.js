@@ -1,20 +1,17 @@
-const { v4: ObjectId } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http.error');
 const User = require('../models/user.model');
 
-const DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Captain Jack Sparrow',
-    email: 'black@pearl.com',
-    password: 'whyistherumgone',
-  },
-];
-
-exports.getUsers = (req, res, next) => {
-  res.json({ users: DUMMY_USERS });
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}, '-password');
+    return res.json({
+      users: users.map(user => user.toObject({ getters: true })),
+    });
+  } catch (error) {
+    return next(new HttpError('Fetching users failed', 500));
+  }
 };
 
 exports.signup = async (req, res, next) => {
