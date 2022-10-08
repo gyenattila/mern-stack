@@ -133,21 +133,38 @@ exports.updatePlace = async (req, res, next) => {
     await place.save();
   } catch (error) {
     return next(
-      new HttpError(`Error happened when querying place by ID: ${error}`, 500)
+      new HttpError(`Error happened when saving place by ID: ${error}`, 500)
     );
   }
 
   res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 
-exports.deletePlace = (req, res, next) => {
+exports.deletePlace = async (req, res, next) => {
   const placeId = req.params.placeId;
 
-  if (!DUMMY_PLACES.find(place => place.id === placeId)) {
-    return next(new HttpError('Could not find a place for provided id', 404));
+  let place;
+  try {
+    place = await Place.findById(placeId).exec();
+
+    if (!place) {
+      return next(
+        new HttpError(`Place not found with the provided id: ${placeId}`, 404)
+      );
+    }
+  } catch (error) {
+    return next(
+      new HttpError(`Error happened when querying place by ID: ${error}`, 500)
+    );
   }
 
-  DUMMY_PLACES = DUMMY_PLACES.filter(place => place.id !== placeId);
+  try {
+    place.remove();
+  } catch (error) {
+    return next(
+      new HttpError(`Error happened when deleting place by ID: ${error}`, 500)
+    );
+  }
 
   res.status(200).json({ message: 'Place deleted' });
 };
