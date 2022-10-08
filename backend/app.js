@@ -3,6 +3,7 @@ require('./utils/env-parser.util').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const placesRoutes = require('./routes/places.routes');
 const usersRoutes = require('./routes/users.routes');
@@ -33,4 +34,14 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || 'An unknown error occurred!' });
 });
 
-app.listen(3000, () => console.log('Application is running'));
+/**
+ * This is just a local mongodb connection string running in Docker.
+ * In real application this string must be stored in env variable.
+ */
+const url = 'mongodb://admin:admin@localhost:27222/?authMechanism=DEFAULT';
+mongoose
+  .connect(url)
+  .then(() => {
+    app.listen(3000, () => console.log('Application is running'));
+  })
+  .catch(error => console.log(error));
