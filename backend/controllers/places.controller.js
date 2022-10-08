@@ -150,7 +150,7 @@ exports.deletePlace = async (req, res, next) => {
 
   let place;
   try {
-    place = await Place.findById(placeId).exec();
+    place = await Place.findById(placeId).populate('creatorId');
 
     if (!place) {
       return next(
@@ -164,6 +164,12 @@ exports.deletePlace = async (req, res, next) => {
   }
 
   try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.remove({ session: sess });
+    place.creatorId.places.pull(place);
+    await place.creatorId.save({ session: sess });
+    await sess.commitTransaction();
     place.remove();
   } catch (error) {
     return next(
