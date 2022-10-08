@@ -21,7 +21,7 @@ exports.signup = async (req, res, next) => {
     return next(new HttpError('Invalid inputs passed', 422));
   }
 
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -39,7 +39,7 @@ exports.signup = async (req, res, next) => {
     password,
     imageUrl:
       'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
-    places,
+    places: [],
   });
 
   try {
