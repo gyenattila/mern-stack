@@ -58,7 +58,7 @@ exports.login = async (req, res, next) => {
     const existingUser = await User.findOne({ email });
 
     if (!existingUser || existingUser.password !== password) {
-      return next('Wrong credentials', 401);
+      return next(new HttpError('Wrong credentials', 401));
     }
   } catch (error) {
     return next(new HttpError(`Logging in failed with error: ${error}`, 500));
