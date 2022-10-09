@@ -15,7 +15,7 @@ import { AuthContext } from '../../shared/context/auth.context';
 
 const Auth = () => {
   const auth = useContext(AuthContext);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -31,14 +31,8 @@ const Auth = () => {
     false
   );
 
-  const authSubmitHandler = event => {
-    event.preventDefault();
-    console.log(formState);
-    auth.login();
-  };
-
   const switchModeHandler = () => {
-    if (!isLogin) {
+    if (!isLoginMode) {
       setFormData(
         {
           ...formState.inputs,
@@ -58,50 +52,78 @@ const Auth = () => {
         false
       );
     }
-    setIsLogin(prevMode => !prevMode);
+    setIsLoginMode(prevMode => !prevMode);
+  };
+
+  const authSubmitHandler = async event => {
+    event.preventDefault();
+
+    if (isLoginMode) {
+    } else {
+      try {
+        const response = await fetch('http://localhost:4200/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    auth.login();
   };
 
   return (
     <Card className='authentication'>
-      <h2>Login required</h2>
+      <h2>Login Required</h2>
       <hr />
       <form onSubmit={authSubmitHandler}>
-        {!isLogin && (
+        {!isLoginMode && (
           <Input
             element='input'
             id='name'
             type='text'
-            label='Your name'
+            label='Your Name'
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Please enter a name.'
             onInput={inputHandler}
-          ></Input>
+          />
         )}
         <Input
-          id='email'
           element='input'
+          id='email'
           type='email'
-          label='Email'
+          label='E-Mail'
           validators={[VALIDATOR_EMAIL()]}
-          errorText='Please provide a valid email address.'
+          errorText='Please enter a valid email address.'
           onInput={inputHandler}
         />
         <Input
-          id='password'
           element='input'
+          id='password'
           type='password'
           label='Password'
-          validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText='Please provide a valid password.'
+          validators={[VALIDATOR_MINLENGTH(6)]}
+          errorText='Please enter a valid password, at least 6 characters.'
           onInput={inputHandler}
         />
         <Button type='submit' disabled={!formState.isValid}>
-          {isLogin ? 'LOGIN' : 'SIGNUP'}
-        </Button>
-        <Button inverse onClick={switchModeHandler}>
-          Switch to {isLogin ? 'SIGNUP' : 'LOGIN'}
+          {isLoginMode ? 'LOGIN' : 'SIGNUP'}
         </Button>
       </form>
+      <Button inverse onClick={switchModeHandler}>
+        SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+      </Button>
     </Card>
   );
 };
